@@ -305,8 +305,7 @@ class TestCSRF(TestCase):
             # Verify they are not the same and the URL one is truly URL safe
             assert default_csrf_token != url_safe_csrf_token
             assert '#' not in url_safe_csrf_token
-            # TODO: Verify hex-only and dash
-            assert '-' in url_safe_csrf_token
+            assert re.match(r'^[a-f0-9]+--[a-f0-9]+$', url_safe_csrf_token)
 
             # Verify we can validate our URL safe key
             assert validate_csrf(url_safe_csrf_token, url_safe=True)
